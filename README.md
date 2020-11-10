@@ -12,7 +12,7 @@ pip install feedparser
 
 #### Config ur following RSS Timeline in  RSSHub Server
 
-> [RSSHub](https://github.com/diygod/rsshub)
+> [RSSHub](https://docs.rsshub.app/social-media.html#bilibili)
 
 ## Configure
 

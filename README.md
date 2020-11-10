@@ -18,8 +18,13 @@ pip install feedparser
 
 Config your information in info.json (URL is RSSHub Server Domain)
 
-```bash
-{"URL":"123456","sessData": "123456","CSRF":"123456","CSRF_TOKEN":"123456"}
+```json
+{
+    "URL": "123456",
+    "sessData": "123456",
+    "CSRF": "123456",
+    "CSRF_TOKEN": "123456"
+}
 ```
 
 ## Run

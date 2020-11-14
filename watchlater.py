@@ -98,18 +98,17 @@ def postBilibili(avid):
         print(res)
 
 
-# def timeJudge(hours, mins, av):
-
 if __name__ == '__main__':
     print("-----Auto Post Bilibili to Watchlater Starting-----")
     hours, mins, avLink = getRSS()
     av = splitAVLink(avLink)
     postBilibili(av)
+    print("添加视频的小时差：")
     print(hours)
-    print("\n")
+    print("添加视频的分钟差：")
     print(mins)
-    print("\n")
+    print("添加的视频av号：")
     print(avLink)
-    print("\n")
+    print("裁剪后的视频av号：")
     print(av)
     print("-----Auto Post Bilibili to Watchlater Finished-----")

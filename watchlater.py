@@ -50,6 +50,10 @@ def getRSS():
             listHourLag.append(hourLag)
             listMinsLag.append(minsLag)
             listAVNum.append(i.link)
+        if time.localtime()[3] >= 0 and time.localtime()[3] <= 8 and publishHour >= -24 and publishHour <= -16:
+            listHourLag.append(hourLag)
+            listMinsLag.append(minsLag)
+            listAVNum.append(i.link)
         listAVSet = list(set(listAVNum))
         # print("时间差：" + str(hourLag))
         # print("分钟差: " + str(minsLag))

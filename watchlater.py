@@ -50,7 +50,7 @@ def getRSS():
             listHourLag.append(hourLag)
             listMinsLag.append(minsLag)
             listAVNum.append(i.link)
-        if time.localtime()[3] >= 0 and time.localtime()[3] <= 8 and publishHour >= 16 and publishHour <= 24:
+        if time.localtime()[3] >= 0 and time.localtime()[3] <= 8 and i.updated_parsed[3] >= 16 and i.updated_parsed[3] <= 24:
             listHourLag.append(hourLag)
             listMinsLag.append(minsLag)
             listAVNum.append(i.link)

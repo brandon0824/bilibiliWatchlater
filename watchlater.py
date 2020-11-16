@@ -39,8 +39,10 @@ def getRSS():
         # print(type(i.updated_parsed[3]))
         # timediff = datetime.now() - datetime.fromtimestamp()
         publishHour = i.updated_parsed[3] + 8
-        hourLag = time.localtime()[3] - publishHour
-        minsLag = time.localtime()[4] - i.updated_parsed[4]
+        nowHour = time.localtime()[3]
+        nowMin = time.localtime()[4]
+        hourLag = nowHour - publishHour
+        minsLag = nowMin - i.updated_parsed[4]
         
         if hourLag == 0 and minsLag <= 30 and minsLag >= 0:
             listHourLag.append(hourLag)
@@ -50,7 +52,7 @@ def getRSS():
             listHourLag.append(hourLag)
             listMinsLag.append(minsLag)
             listAVNum.append(i.link)
-        if time.localtime()[3] >= 0 and time.localtime()[3] <= 8 and i.updated_parsed[3] >= 16 and i.updated_parsed[3] <= 24:
+        if nowHour >= 0 and nowHour <= 8 and publishHour >= 24 and publishHour <= 32:
             listHourLag.append(hourLag)
             listMinsLag.append(minsLag)
             listAVNum.append(i.link)

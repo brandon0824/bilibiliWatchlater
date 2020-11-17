@@ -52,7 +52,8 @@ def getRSS():
             listHourLag.append(hourLag)
             listMinsLag.append(minsLag)
             listAVNum.append(i.link)
-        if nowHour >= 0 and nowHour <= 8 and publishHour >= 24 and publishHour <= 32:
+        # 解决八小时时差问题
+        if nowHour >= 0 and nowHour <= 7 and publishHour >= 24 and publishHour <= 32:
             listHourLag.append(hourLag)
             listMinsLag.append(minsLag)
             listAVNum.append(i.link)
@@ -68,6 +69,8 @@ def getRSS():
     #                                                 time.localtime()[4], time.localtime()[5])
     # print(str)
     # print(type(time.localtime()[3]))
+    print('现在时间是：')
+    print(nowHour)
     return listHourLag, listMinsLag, listAVSet
 
 def splitAVLink(avList):

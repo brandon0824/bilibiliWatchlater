@@ -69,8 +69,8 @@ def getRSS():
     #                                                 time.localtime()[4], time.localtime()[5])
     # print(str)
     # print(type(time.localtime()[3]))
-    print('现在时间是：')
-    print(nowHour)
+    # print('现在时间是：')
+    # print(nowHour)
     return listHourLag, listMinsLag, listAVSet
 
 def splitAVLink(avList):

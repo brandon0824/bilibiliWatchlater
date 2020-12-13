@@ -39,21 +39,24 @@ def getRSS():
         # print(type(i.updated_parsed[3]))
         # timediff = datetime.now() - datetime.fromtimestamp()
         publishHour = i.updated_parsed[3] + 8
+        nowDay = time.localtime()[2]
         nowHour = time.localtime()[3]
         nowMin = time.localtime()[4]
+        dayLag = nowDay - i.updated_parsed[2]
         hourLag = nowHour - publishHour
         minsLag = nowMin - i.updated_parsed[4]
         
-        if hourLag == 0 and minsLag <= 30 and minsLag >= 0:
-            listHourLag.append(hourLag)
-            listMinsLag.append(minsLag)
-            listAVNum.append(i.link)
-        if hourLag  == 1 and minsLag >= -59 and minsLag <= -31:
-            listHourLag.append(hourLag)
-            listMinsLag.append(minsLag)
-            listAVNum.append(i.link)
+        if dayLag == 0:
+            if hourLag == 0 and minsLag <= 30 and minsLag >= 0:
+                listHourLag.append(hourLag)
+                listMinsLag.append(minsLag)
+                listAVNum.append(i.link)
+            if hourLag  == 1 and minsLag >= -59 and minsLag <= -31:
+                listHourLag.append(hourLag)
+                listMinsLag.append(minsLag)
+                listAVNum.append(i.link)
         # 解决八小时时差问题
-        if nowHour >= 0 and nowHour <= 7 and publishHour >= 24 and publishHour <= 32:
+        if nowHour >= 0 and nowHour <= 8 and publishHour >= 24 and publishHour <= 32:
             listHourLag.append(hourLag)
             listMinsLag.append(minsLag)
             listAVNum.append(i.link)

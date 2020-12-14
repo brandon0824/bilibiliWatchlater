@@ -56,10 +56,11 @@ def getRSS():
                 listMinsLag.append(minsLag)
                 listAVNum.append(i.link)
         # 解决八小时时差问题
-        if nowHour >= 0 and nowHour <= 8 and publishHour >= 24 and publishHour <= 32:
-            listHourLag.append(hourLag)
-            listMinsLag.append(minsLag)
-            listAVNum.append(i.link)
+        if dayLag == 1:
+            if nowHour >= 0 and nowHour <= 8 and publishHour >= 24 and publishHour <= 32:
+                listHourLag.append(hourLag)
+                listMinsLag.append(minsLag)
+                listAVNum.append(i.link)
         listAVSet = list(set(listAVNum))
         # print("时间差：" + str(hourLag))
         # print("分钟差: " + str(minsLag))

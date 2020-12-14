@@ -50,7 +50,7 @@ def getRSS():
         author = i['author']
         title = i['title']
         bedtimeFlag = bedtimeNews(author, title)
-        
+
         if(bedtimeFlag == 1 and bedtimeFlag == 3):
             if dayLag == 0:
                 if hourLag == 0 and minsLag <= 30 and minsLag >= 0:              
@@ -83,14 +83,6 @@ def getRSS():
     # print(nowHour)
     return listHourLag, listMinsLag, listAVSet
 
-def splitAVLink(avList):
-    lastAVLink=[]
-    for i in avList:
-        avStr = i.split('v', 2)
-        lastav = avStr[-1]
-        lastAVLink.append(lastav)
-    return lastAVLink
-
 def bedtimeNews(author, title):
     if(author == '观视频工作室'):
         if(title.startswith('睡前消息')):
@@ -99,8 +91,16 @@ def bedtimeNews(author, title):
             return 2
     else:
         return 3
-        
-        
+
+def splitAVLink(avList):
+    lastAVLink=[]
+    for i in avList:
+        avStr = i.split('v', 2)
+        lastav = avStr[-1]
+        lastAVLink.append(lastav)
+    return lastAVLink
+
+
 def postBilibili(avid):
     with open('D:/python_practice/bilibiliWatchlater/info.json', 'r') as myfile:
         data = myfile.read()

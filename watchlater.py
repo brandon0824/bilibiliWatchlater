@@ -46,22 +46,28 @@ def getRSS():
         hourLag = nowHour - publishHour
         minsLag = nowMin - i.updated_parsed[4]
         
-        if dayLag == 0:
-            if hourLag == 0 and minsLag <= 30 and minsLag >= 0:
-                listHourLag.append(hourLag)
-                listMinsLag.append(minsLag)
+        title = i['title']
+        author = i['author']
+        if author == '观视频工作室':
+            if(title.startswith('睡前消息')):
                 listAVNum.append(i.link)
-            if hourLag  == 1 and minsLag >= -59 and minsLag <= -31:
-                listHourLag.append(hourLag)
-                listMinsLag.append(minsLag)
-                listAVNum.append(i.link)
-        # 解决八小时时差问题
-        if dayLag == 1:
-            if nowHour >= 0 and nowHour <= 8 and publishHour >= 24 and publishHour <= 32:
-                listHourLag.append(hourLag)
-                listMinsLag.append(minsLag)
-                listAVNum.append(i.link)
-        listAVSet = list(set(listAVNum))
+        else:
+            if dayLag == 0:
+                if hourLag == 0 and minsLag <= 30 and minsLag >= 0:
+                    listHourLag.append(hourLag)
+                    listMinsLag.append(minsLag)
+                    listAVNum.append(i.link)
+                if hourLag  == 1 and minsLag >= -59 and minsLag <= -31:
+                    listHourLag.append(hourLag)
+                    listMinsLag.append(minsLag)
+                    listAVNum.append(i.link)
+            # eight hour time lag
+            if dayLag == 1:
+                if nowHour >= 0 and nowHour <= 8 and publishHour >= 24 and publishHour <= 32:
+                    listHourLag.append(hourLag)
+                    listMinsLag.append(minsLag)
+                    listAVNum.append(i.link)
+            listAVSet = list(set(listAVNum))
         # print("时间差：" + str(hourLag))
         # print("分钟差: " + str(minsLag))
         print("\n")
@@ -116,6 +122,7 @@ if __name__ == '__main__':
     hours, mins, avLink = getRSS()
     av = splitAVLink(avLink)
     postBilibili(av)
+    print("\n")
     print("添加视频的小时差：")
     print(hours)
     print("添加视频的分钟差：")

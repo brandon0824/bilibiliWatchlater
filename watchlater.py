@@ -51,7 +51,7 @@ def getRSS():
         title = i['title']
         bedtimeFlag = bedtimeNews(author, title)
 
-        if(bedtimeFlag == 1 and bedtimeFlag == 3):
+        if(bedtimeFlag == 1 or bedtimeFlag == 3):
             if dayLag == 0:
                 if hourLag == 0 and minsLag <= 30 and minsLag >= 0:              
                     listHourLag.append(hourLag)

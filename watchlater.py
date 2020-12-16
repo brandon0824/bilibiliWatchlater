@@ -11,6 +11,8 @@ def getRSS():
     listMinsLag = []
     listAVNum = []
     listAVSet = []
+    listAuthor = []
+    listTitle = []
 
     with open('D:/python_practice/bilibiliWatchlater/info.json', 'r') as myfile:
         data = myfile.read()
@@ -49,6 +51,7 @@ def getRSS():
         
         author = i['author']
         title = i['title']
+        link = i['link']
         bedtimeFlag = bedtimeNews(author, title)
 
         if(bedtimeFlag == 1 or bedtimeFlag == 3):
@@ -56,18 +59,25 @@ def getRSS():
                 if hourLag == 0 and minsLag <= 30 and minsLag >= 0:              
                     listHourLag.append(hourLag)
                     listMinsLag.append(minsLag)
-                    listAVNum.append(i.link)
+                    listAVNum.append(link)
+                    listAuthor.append(author)
+                    listTitle.append(title)
                 if hourLag  == 1 and minsLag >= -59 and minsLag <= -31:
                     listHourLag.append(hourLag)
                     listMinsLag.append(minsLag)
-                    listAVNum.append(i.link)
+                    listAVNum.append(link)
+                    listAuthor.append(author)
+                    listTitle.append(title)
             # eight hour time lag
             if dayLag == 1:
                 if nowHour >= 0 and nowHour <= 8 and publishHour >= 24 and publishHour <= 32:
                     listHourLag.append(hourLag)
                     listMinsLag.append(minsLag)
-                    listAVNum.append(i.link)
+                    listAVNum.append(link)
+                    listAuthor.append(author)
+                    listTitle.append(title)
             listAVSet = list(set(listAVNum))
+            au2title = dict(zip(listAuthor, listTitle))
         # print("时间差：" + str(hourLag))
         # print("分钟差: " + str(minsLag))
         print("\n")
@@ -81,7 +91,7 @@ def getRSS():
     # print(type(time.localtime()[3]))
     # print('现在时间是：')
     # print(nowHour)
-    return listHourLag, listMinsLag, listAVSet
+    return listHourLag, listMinsLag, listAVSet, au2title
 
 def bedtimeNews(author, title):
     if(author == '观视频工作室'):
@@ -128,7 +138,7 @@ def postBilibili(avid):
 
 if __name__ == '__main__':
     print("-----Auto Post Bilibili to Watchlater Starting-----")
-    hours, mins, avLink = getRSS()
+    hours, mins, avLink, author2title = getRSS()
     av = splitAVLink(avLink)
     postBilibili(av)
     print("\n")
@@ -140,4 +150,6 @@ if __name__ == '__main__':
     print(avLink)
     print("裁剪后的视频av号：")
     print(av)
+    print('添加视频的up主和视频标题:')
+    print(json.dumps(author2title, indent=4, ensure_ascii=False))
     print("-----Auto Post Bilibili to Watchlater Finished-----")

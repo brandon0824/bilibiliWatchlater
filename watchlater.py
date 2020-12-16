@@ -95,7 +95,7 @@ def getRSS():
 
 def bedtimeNews(author, title):
     if(author == '观视频工作室'):
-        if(title.startswith('睡前消息')):
+        if(title.startswith('【睡前消息')):
             return 1
         else:
             return 2

@@ -76,8 +76,8 @@ def getRSS():
                     listAVNum.append(link)
                     listAuthor.append(author)
                     listTitle.append(title)
-            listAVSet = list(set(listAVNum))
-            au2title = dict(zip(listAuthor, listTitle))
+        listAVSet = list(set(listAVNum))
+        au2title = key2value(listAuthor, listTitle)
         # print("时间差：" + str(hourLag))
         # print("分钟差: " + str(minsLag))
         print("\n")
@@ -109,6 +109,14 @@ def splitAVLink(avList):
         lastav = avStr[-1]
         lastAVLink.append(lastav)
     return lastAVLink
+
+def key2value(listA, listB):
+    dictResult = dict()
+    for i, j in zip(listA, listB):
+        if i not in dictResult.keys():
+            dictResult[i] = []
+        dictResult[i].append(j)
+    return dictResult
 
 
 def postBilibili(avid):

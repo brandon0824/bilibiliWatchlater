@@ -14,7 +14,8 @@ def getRSS():
     listAuthor = []
     listTitle = []
 
-    with open('D:/python_practice/bilibiliWatchlater/info.json', 'r') as myfile:
+    # with open('D:/python_practice/bilibiliWatchlater/info.json', "r") as myfile:
+    with open('.\info.json', 'r') as myfile:
         data = myfile.read()
 
     obj = json.loads(data)
@@ -42,9 +43,12 @@ def getRSS():
         # print(type(i.updated_parsed[3]))
         # timediff = datetime.now() - datetime.fromtimestamp()
         publishHour = i.updated_parsed[3] + 8
+        publishMin = i.updated_parsed[4]
+
         nowDay = time.localtime()[2]
         nowHour = time.localtime()[3]
         nowMin = time.localtime()[4]
+
         dayLag = nowDay - i.updated_parsed[2]
         hourLag = nowHour - publishHour
         minsLag = nowMin - i.updated_parsed[4]
@@ -68,8 +72,15 @@ def getRSS():
                     listAVNum.append(link)
                     listAuthor.append(author)
                     listTitle.append(title)
-            # eight hour time lag
             if dayLag == 1:
+                # solve publishtime in 23:30-00:00
+                if nowHour == 0 and publishMin == 23 and publishMin >= 30 and publishMin >= 59:
+                    listHourLag.append(hourLag)
+                    listMinsLag.append(minsLag)
+                    listAVNum.append(link)
+                    listAuthor.append(author)
+                    listTitle.append(title)
+                # eight hour time lag
                 if nowHour >= 0 and nowHour <= 8 and publishHour >= 24 and publishHour <= 32:
                     listHourLag.append(hourLag)
                     listMinsLag.append(minsLag)
@@ -120,9 +131,8 @@ def key2value(listA, listB):
 
 
 def postBilibili(avid):
-    with open('D:/python_practice/bilibiliWatchlater/info.json', 'r') as myfile:
+    with open('.\info.json', 'r') as myfile:
         data = myfile.read()
-
     obj = json.loads(data)
     # print("username: " + str(obj['username']))
     # print("password:" + str(obj['password']))

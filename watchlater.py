@@ -60,12 +60,14 @@ def getRSS():
 
         if(bedtimeFlag == 1 or bedtimeFlag == 3):
             if dayLag == 0:
+                # publishtime in *:00-*:30
                 if hourLag == 0 and minsLag <= 30 and minsLag >= 0:              
                     listHourLag.append(hourLag)
                     listMinsLag.append(minsLag)
                     listAVNum.append(link)
                     listAuthor.append(author)
                     listTitle.append(title)
+                # publishtime in *:30-*:00
                 if hourLag  == 1 and minsLag >= -59 and minsLag <= -31:
                     listHourLag.append(hourLag)
                     listMinsLag.append(minsLag)

@@ -14,8 +14,7 @@ def getRSS():
     listAuthor = []
     listTitle = []
 
-    # with open('D:/python_practice/bilibiliWatchlater/info.json', "r") as myfile:
-    with open('.\info.json', 'r') as myfile:
+    with open('D:/python_practice/bilibiliWatchlater/info.json', "r") as myfile:
         data = myfile.read()
 
     obj = json.loads(data)
@@ -61,34 +60,42 @@ def getRSS():
         if(bedtimeFlag == 1 or bedtimeFlag == 3):
             if dayLag == 0:
                 # publishtime in *:00-*:30
-                if hourLag == 0 and minsLag <= 30 and minsLag >= 0:              
-                    listHourLag.append(hourLag)
-                    listMinsLag.append(minsLag)
-                    listAVNum.append(link)
-                    listAuthor.append(author)
-                    listTitle.append(title)
+                if hourLag == 0 and minsLag <= 30 and minsLag >= 0:
+                    appendItem(listHourLag, listMinsLag, listAVNum, listAuthor, listTitle,
+                                hourLag, minsLag, link, author, title)
+                    # listHourLag.append(hourLag)
+                    # listMinsLag.append(minsLag)
+                    # listAVNum.append(link)
+                    # listAuthor.append(author)
+                    # listTitle.append(title)
                 # publishtime in *:30-*:00
                 if hourLag  == 1 and minsLag >= -59 and minsLag <= -31:
-                    listHourLag.append(hourLag)
-                    listMinsLag.append(minsLag)
-                    listAVNum.append(link)
-                    listAuthor.append(author)
-                    listTitle.append(title)
+                    appendItem(listHourLag, listMinsLag, listAVNum, listAuthor, listTitle,
+                                hourLag, minsLag, link, author, title)
+                    # listHourLag.append(hourLag)
+                    # listMinsLag.append(minsLag)
+                    # listAVNum.append(link)
+                    # listAuthor.append(author)
+                    # listTitle.append(title)
             if dayLag == 1:
                 # solve publishtime in 23:30-00:00
                 if nowHour == 0 and publishMin == 23 and publishMin >= 30 and publishMin >= 59:
-                    listHourLag.append(hourLag)
-                    listMinsLag.append(minsLag)
-                    listAVNum.append(link)
-                    listAuthor.append(author)
-                    listTitle.append(title)
+                    appendItem(listHourLag, listMinsLag, listAVNum, listAuthor, listTitle,
+                                hourLag, minsLag, link, author, title)
+                    # listHourLag.append(hourLag)
+                    # listMinsLag.append(minsLag)
+                    # listAVNum.append(link)
+                    # listAuthor.append(author)
+                    # listTitle.append(title)
                 # eight hour time lag
                 if nowHour >= 0 and nowHour <= 8 and publishHour >= 24 and publishHour <= 32:
-                    listHourLag.append(hourLag)
-                    listMinsLag.append(minsLag)
-                    listAVNum.append(link)
-                    listAuthor.append(author)
-                    listTitle.append(title)
+                    appendItem(listHourLag, listMinsLag, listAVNum, listAuthor, listTitle,
+                                hourLag, minsLag, link, author, title)
+                    # listHourLag.append(hourLag)
+                    # listMinsLag.append(minsLag)
+                    # listAVNum.append(link)
+                    # listAuthor.append(author)
+                    # listTitle.append(title)
         listAVSet = list(set(listAVNum))
         au2title = key2value(listAuthor, listTitle)
         # print("时间差：" + str(hourLag))
@@ -131,9 +138,15 @@ def key2value(listA, listB):
         dictResult[i].append(j)
     return dictResult
 
+def appendItem(listA, listB, listC, listD, listE, a, b, c, d, e):
+    listA.append(a)
+    listB.append(b)
+    listC.append(c)
+    listD.append(d)
+    listE.append(e)
 
 def postBilibili(avid):
-    with open('.\info.json', 'r') as myfile:
+    with open('D:/python_practice/bilibiliWatchlater/info.json', "r") as myfile:
         data = myfile.read()
     obj = json.loads(data)
     # print("username: " + str(obj['username']))

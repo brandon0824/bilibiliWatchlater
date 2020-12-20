@@ -63,39 +63,23 @@ def getRSS():
                 if hourLag == 0 and minsLag <= 30 and minsLag >= 0:
                     appendItem(listHourLag, listMinsLag, listAVNum, listAuthor, listTitle,
                                 hourLag, minsLag, link, author, title)
-                    # listHourLag.append(hourLag)
-                    # listMinsLag.append(minsLag)
-                    # listAVNum.append(link)
-                    # listAuthor.append(author)
-                    # listTitle.append(title)
                 # publishtime in *:30-*:00
                 if hourLag  == 1 and minsLag >= -59 and minsLag <= -31:
                     appendItem(listHourLag, listMinsLag, listAVNum, listAuthor, listTitle,
                                 hourLag, minsLag, link, author, title)
-                    # listHourLag.append(hourLag)
-                    # listMinsLag.append(minsLag)
-                    # listAVNum.append(link)
-                    # listAuthor.append(author)
-                    # listTitle.append(title)
             if dayLag == 1:
                 # solve publishtime in 23:30-00:00
                 if nowHour == 0 and publishMin == 23 and publishMin >= 30 and publishMin >= 59:
                     appendItem(listHourLag, listMinsLag, listAVNum, listAuthor, listTitle,
                                 hourLag, minsLag, link, author, title)
-                    # listHourLag.append(hourLag)
-                    # listMinsLag.append(minsLag)
-                    # listAVNum.append(link)
-                    # listAuthor.append(author)
-                    # listTitle.append(title)
                 # eight hour time lag
-                if nowHour >= 0 and nowHour <= 8 and publishHour >= 24 and publishHour <= 32:
+                if nowHour >= 0 and nowHour <= 7 and publishHour >= 24 and publishHour <= 32:
                     appendItem(listHourLag, listMinsLag, listAVNum, listAuthor, listTitle,
                                 hourLag, minsLag, link, author, title)
-                    # listHourLag.append(hourLag)
-                    # listMinsLag.append(minsLag)
-                    # listAVNum.append(link)
-                    # listAuthor.append(author)
-                    # listTitle.append(title)
+                # run code at 8 o'clock
+                if nowHour == 8 and nowMin == 0 and publishHour >= 24 and publishHour <= 32:
+                    appendItem(listHourLag, listMinsLag, listAVNum, listAuthor, listTitle,
+                                hourLag, minsLag, link, author, title)
         listAVSet = list(set(listAVNum))
         au2title = key2value(listAuthor, listTitle)
         # print("时间差：" + str(hourLag))

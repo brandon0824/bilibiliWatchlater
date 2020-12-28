@@ -13,6 +13,7 @@ def getRSS():
     listAVSet = []
     listAuthor = []
     listTitle = []
+    link2title = {}
 
     with open('D:/python_practice/bilibiliWatchlater/info.json', "r") as myfile:
         data = myfile.read()
@@ -22,16 +23,9 @@ def getRSS():
 
     rss = feedparser.parse(url)
     
-
     print(rss.feed.title)
     print("\n")
-    # print(rss.entries[0].id)
-    # print(rss.entries[0].link)
-    # print(rss.entries[0].title)
-    # print(rss.entries[0].author)
-    # print(rss.entries[0].description)
-
-
+    
     for i in rss['entries']:
         print("id:"+" "+i['id'])
         print("link:"+" "+i['link'])
@@ -39,8 +33,7 @@ def getRSS():
         print("author:"+" "+i['author'])
         print("description:"+" "+i['description'])
         print(i.updated_parsed)
-        # print(type(i.updated_parsed[3]))
-        # timediff = datetime.now() - datetime.fromtimestamp()
+        
         publishHour = i.updated_parsed[3] + 8
         publishMin = i.updated_parsed[4]
 
@@ -55,47 +48,47 @@ def getRSS():
         author = i['author']
         title = i['title']
         link = i['link']
+        
         bedtimeFlag = bedtimeNews(author, title)
 
         if(bedtimeFlag == 1 or bedtimeFlag == 3):
+            
             if dayLag == 0:
-                # publishtime in *:00-*:30
+                
                 if hourLag == 0 and minsLag <= 30 and minsLag >= 0:
                     appendItem(listHourLag, listMinsLag, listAVNum, listAuthor, listTitle,
                                 hourLag, minsLag, link, author, title)
-                # publishtime in *:30-*:00
+                    linktotitle(link, title, link2title)
+                
                 if hourLag  == 1 and minsLag >= -59 and minsLag <= -31:
                     appendItem(listHourLag, listMinsLag, listAVNum, listAuthor, listTitle,
                                 hourLag, minsLag, link, author, title)
+                    linktotitle(link, title, link2title)
+            
             if dayLag == 1:
-                # solve publishtime in 23:30-00:00
+                
                 if nowHour == 0 and publishMin == 23 and publishMin >= 30 and publishMin >= 59:
                     appendItem(listHourLag, listMinsLag, listAVNum, listAuthor, listTitle,
                                 hourLag, minsLag, link, author, title)
-                # eight hour time lag
+                    linktotitle(link, title, link2title)
+                
                 if nowHour >= 0 and nowHour <= 7 and publishHour >= 24 and publishHour <= 32:
                     appendItem(listHourLag, listMinsLag, listAVNum, listAuthor, listTitle,
                                 hourLag, minsLag, link, author, title)
-                # run code at 8 o'clock
+                    linktotitle(link, title, link2title)
+                
                 if nowHour == 8 and nowMin == 0 and publishHour >= 24 and publishHour <= 32:
                     appendItem(listHourLag, listMinsLag, listAVNum, listAuthor, listTitle,
                                 hourLag, minsLag, link, author, title)
+                    linktotitle(link, title, link2title)
+        
+        # remove the repeat item
         listAVSet = list(set(listAVNum))
         au2title = key2value(listAuthor, listTitle)
-        # print("时间差：" + str(hourLag))
-        # print("分钟差: " + str(minsLag))
+
         print("\n")
-        # listHourLag.append(hourLag)
-        # listMinsLag.append(minsLag)
-        # listAVNum.append(i.link)
-    # print(time.localtime())
-    # str = "现在的时间是：%d年%d月%d日%d时%d分%d秒" %(time.localtime()[0], time.localtime()[1], time.localtime()[2], time.localtime()[3], 
-    #                                                 time.localtime()[4], time.localtime()[5])
-    # print(str)
-    # print(type(time.localtime()[3]))
-    # print('现在时间是：')
-    # print(nowHour)
-    return listHourLag, listMinsLag, listAVSet, au2title
+
+    return listHourLag, listMinsLag, listAVSet, au2title, link2title
 
 def bedtimeNews(author, title):
     if(author == '观视频工作室'):
@@ -106,13 +99,26 @@ def bedtimeNews(author, title):
     else:
         return 3
 
-def splitAVLink(avList):
+
+def splitAVLinkList(avList):
     lastAVLink=[]
     for i in avList:
         avStr = i.split('v', 2)
         lastav = avStr[-1]
         lastAVLink.append(lastav)
     return lastAVLink
+
+
+def splitAVLinkStr(avStr):
+    avStr = avStr.split('v',2)
+    avstr = avStr[-1]
+    return avstr
+
+
+def linktotitle(link, title, link2title):
+    link = splitAVLinkStr(link)
+    link2title[link] = title
+
 
 def key2value(listA, listB):
     dictResult = dict()
@@ -122,6 +128,7 @@ def key2value(listA, listB):
         dictResult[i].append(j)
     return dictResult
 
+
 def appendItem(listA, listB, listC, listD, listE, a, b, c, d, e):
     listA.append(a)
     listB.append(b)
@@ -129,12 +136,13 @@ def appendItem(listA, listB, listC, listD, listE, a, b, c, d, e):
     listD.append(d)
     listE.append(e)
 
+
 def postBilibili(avid):
+    
     with open('D:/python_practice/bilibiliWatchlater/info.json', "r") as myfile:
         data = myfile.read()
     obj = json.loads(data)
-    # print("username: " + str(obj['username']))
-    # print("password:" + str(obj['password']))
+    
     sessdata = str(obj['sessData'])
     csrf = str(obj['CSRF'])
     csrf_token = str(obj['CSRF_TOKEN'])
@@ -155,8 +163,8 @@ def postBilibili(avid):
 
 if __name__ == '__main__':
     print("-----Auto Post Bilibili to Watchlater Starting-----")
-    hours, mins, avLink, author2title = getRSS()
-    av = splitAVLink(avLink)
+    hours, mins, avLink, author2title, link2title = getRSS()
+    av = splitAVLinkList(avLink)
     postBilibili(av)
     print("\n")
     print("添加视频的小时差：")
@@ -167,6 +175,8 @@ if __name__ == '__main__':
     print(json.dumps(avLink, indent=4, ensure_ascii=False))
     print("裁剪后的视频av号：")
     print(json.dumps(av, indent=4, ensure_ascii=False))
-    print('添加视频的up主和视频标题:')
+    print('添加视频的 up主-视频标题:')
     print(json.dumps(author2title, indent=4, ensure_ascii=False))
+    print('添加视频的 av号-视频标题:')
+    print(json.dumps(link2title, indent=4, ensure_ascii=False))
     print("-----Auto Post Bilibili to Watchlater Finished-----")

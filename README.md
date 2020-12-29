@@ -1,6 +1,6 @@
 # Post Timeline Video to Watchlater per half hour.
 
-> 通过RSSHub和requests每半小时将时间线视频添加到稍后再看列表中
+> 通过RSSHub和requests每半小时将bilibili时间线视频添加到稍后再看列表中
 
 ## Install
 
